@@ -53,7 +53,7 @@ router.post('/generate-report', async (req, res) => {
 
     await buildReport(id, domain, url, metrics);
 
-    return res.json({ reportURL: `http://localhost:3000/${id}/${domain}-report.html` });
+    return res.json({ reportURL: `http://localhost:5000/${id}/${domain}-report.html` });
 });
 
 
