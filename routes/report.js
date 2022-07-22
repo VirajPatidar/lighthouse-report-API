@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+const fs = require('fs');
+const path = require('path');
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 
@@ -16,13 +18,28 @@ async function buildReport(id, name, url, metrics) {
     const reportHtml = runnerResult.report;
 
 
+    dir = `./public/${id}`
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir, { recursive: true });
+    } else {
+        fs.readdir(dir, (err, files) => {
+            if (err) throw err;
+            for (const file of files) {
+              fs.unlink(path.join(dir, file), err => {
+                if (err) throw err;
+              });
+            }
+          });
+    }
+    fs.writeFileSync(`${dir}/${name}-report.html`, reportHtml);      
+
+
     // `.lhr` is the Lighthouse Result as a JS object
     console.log('Report is done for', runnerResult.lhr.finalUrl);
     console.log('Performance score was', runnerResult.lhr.categories.performance.score * 100);
 
     await chrome.kill();
 }
-
 
 
 
