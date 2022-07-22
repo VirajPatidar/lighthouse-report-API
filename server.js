@@ -26,6 +26,10 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 
+// Static Folder
+app.use(express.static('public'));
+
+
 // Allow JSON in req
 app.use(express.json());
 
