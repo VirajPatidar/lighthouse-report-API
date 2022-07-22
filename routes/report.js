@@ -22,10 +22,10 @@ async function buildReport(id, name, url, metrics) {
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir, { recursive: true });
     } else {
-        fs.readdir(dir, (err, files) => {
+        fs.readdirSync(dir, (err, files) => {
             if (err) throw err;
             for (const file of files) {
-              fs.unlink(path.join(dir, file), err => {
+              fs.unlinkSync(path.join(dir, file), err => {
                 if (err) throw err;
               });
             }
